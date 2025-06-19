@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <title>Winstafdracht Rekentool</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; max-width: 700px; margin: auto; }
+    input[type='number'] { width: 100%; padding: 5px; margin-bottom: 10px; }
+    label { font-weight: bold; display: block; margin-top: 15px; }
+    .result { margin-top: 20px; padding: 10px; background: #eef; border: 1px solid #ccd; }
+  </style>
+</head>
+<body>
+  <h2>Winstafdracht Rekentool (Anti-speculatiebeding)</h2>
+
+  <label>Verkoopprijs woning (€)</label>
+  <input type="number" id="verkoopprijs" value="497000">
+
+  <label>Totaal investeringskosten met bonnen (€)</label>
+  <input type="number" id="kosten" value="403896">
+
+  <label>Verkoopjaar na oplevering (1 t/m 10)</label>
+  <input type="number" id="jaren" value="2" min="1" max="10">
+
+  <div class="result">
+    <p><strong>Netto-winst:</strong> €<span id="nettowinst">0</span></p>
+    <p><strong>Afdrachtpercentage:</strong> <span id="percentage">0</span>%</p>
+    <p><strong>Te betalen winstafdracht:</strong> €<span id="afdracht">0</span></p>
+  </div>
+
+  <script>
+    function bereken() {
+      const verkoopprijs = parseFloat(document.getElementById('verkoopprijs').value);
+      const kosten = parseFloat(document.getElementById('kosten').value);
+      const jaren = parseInt(document.getElementById('jaren').value);
+
+      const winst = verkoopprijs - kosten;
+      const percentage = Math.max(0, 100 - (jaren * 10));
+      const afdracht = winst * (percentage / 100);
+
+      document.getElementById('nettowinst').innerText = winst.toFixed(2);
+      document.getElementById('percentage').innerText = percentage;
+      document.getElementById('afdracht').innerText = afdracht.toFixed(2);
+    }
+
+    document.querySelectorAll('input').forEach(input => input.addEventListener('input', bereken));
+    window.onload = bereken;
+  </script>
+</body>
+</html>
